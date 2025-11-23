@@ -1,8 +1,9 @@
 import os
 from typing import Optional
+from datetime import datetime, date
 
 import serpapi
-from langchain.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_core.tools import tool
 
 # from pydantic import BaseModel, Field
@@ -33,7 +34,24 @@ def hotels_finder(params: HotelsInput):
         dict: Hotel search results.
     '''
 
-    params = {
+    # Basic validation for required fields
+    if not params.q or not params.check_in_date or not params.check_out_date:
+        return {'error': 'Missing required parameters: q, check_in_date, check_out_date'}
+
+    # Validate date format and chronology
+    try:
+        ci = datetime.strptime(params.check_in_date, '%Y-%m-%d').date()
+        co = datetime.strptime(params.check_out_date, '%Y-%m-%d').date()
+    except Exception:
+        return {'error': 'Dates must be in YYYY-MM-DD format'}
+
+    today = date.today()
+    if ci < today:
+        return {'error': '`check_in_date` cannot be in the past.'}
+    if co <= ci:
+        return {'error': '`check_out_date` must be after `check_in_date`.'}
+
+    query = {
         'api_key': os.environ.get('SERPAPI_API_KEY'),
         'engine': 'google_hotels',
         'hl': 'en',
@@ -49,6 +67,10 @@ def hotels_finder(params: HotelsInput):
         'hotel_class': params.hotel_class
     }
 
-    search = serpapi.search(params)
-    results = search.data
-    return results['properties'][:5]
+    try:
+        search = serpapi.search(query)
+        results = search.data
+        return results.get('properties', [])[:5]
+    except Exception as e:
+        # Return a friendly error string so the agent can surface it
+        return {'error': str(e)}

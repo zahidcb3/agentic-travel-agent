@@ -9,7 +9,7 @@ Welcome to the AI Travel Agent repository! This project demonstrates how to leve
 - **Email Automation**: Automatically generates and sends detailed travel plans to users via email.
 
 ## Getting Started
-Clone the repository, set up the virtual environment, and install the required packages
+Clone the repository, set up the virtual environment, and install the required packages.
 
 1. git clone git@github.com:nirbar1985/ai-travel-agent.git
 
@@ -30,10 +30,11 @@ Clone the repository, set up the virtual environment, and install the required p
 
 ## **Store Your API Keys**
 
-1. Create a `.env` file in the root directory of the project.
+1. Copy `.env.example` to `.env` in the project root.
 2. Add your API keys and environment variables to the `.env` file:
     ```plaintext
     OPENAI_API_KEY=your_openai_api_key
+    GOOGLE_API_KEY=your_google_api_key
     SERPAPI_API_KEY=your_serpapi_api_key
     SENDGRID_API_KEY=your_sendgrid_api_key
 
@@ -43,8 +44,8 @@ Clone the repository, set up the virtual environment, and install the required p
     LANGCHAIN_PROJECT=ai_travel_agent
     ```
 
-Make sure to replace the placeholders (`your_openai_api_key`, `your_serpapi_api_key`, `your_langchain_api_key`, `your_sendgrid_api_key`) with your actual keys.
-This version includes the necessary environment variables for OpenAI, SERPAPI, LangChain, and SendGrid and the LANGCHAIN_TRACING_V2 and LANGCHAIN_PROJECT configurations.
+Make sure to replace the placeholders (`your_openai_api_key`, `your_google_api_key`, `your_serpapi_api_key`, `your_langchain_api_key`, `your_sendgrid_api_key`) with your actual keys.
+These variables cover OpenAI, Google GenAI, SERPAPI, LangChain observability, and SendGrid.
 
 ### How to Run the Chatbot
 To start the chatbot, run the following command:
@@ -85,6 +86,14 @@ The email integration is implemented using the **human-in-the-loop** feature, al
 ## Learn More
 For a detailed explanation of the underlying technology, check out the full article on Medium:
 [Building Production-Ready AI Agents with LangGraph: A Real-Life Use Case](https://medium.com/cyberark-engineering/building-production-ready-ai-agents-with-langgraph-a-real-life-use-case-7bda34c7f4e4))
+
+## CI & Quality
+- Automated CI runs on pushes and pull requests via GitHub Actions (`.github/workflows/ci.yml`).
+- CI checks include linting with `ruff` and tests with `pytest`.
+- Set `GOOGLE_API_KEY` as a repository secret to enable the model listing test; otherwise it is skipped.
+
+## Contributing
+See `CONTRIBUTING.md` for guidelines. Please follow the PR template and ensure CI passes.
 
 ## License
 Distributed under the MIT License. See LICENSE.txt for more information.
