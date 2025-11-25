@@ -1,0 +1,11 @@
+python-dotenv>=1.0.1,<2.0.0
+langchain==1.0.5
+langgraph==1.0.2
+grandalf>=0.8,<0.9
+sendgrid>=6.11.0,<7.0.0
+streamlit>=1.38.0,<2.0.0
+serpapi>=0.1.5,<0.2.0
+langchain-core==1.0.4
+langchain-ollama==1.0.0
+google-genai>=1.49.0,<2.0.0
+langchain-google-genai>=3.0.3,<4.0.0

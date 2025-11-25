@@ -9,24 +9,23 @@ Welcome to the AI Travel Agent repository! This project demonstrates how to leve
 - **Email Automation**: Automatically generates and sends detailed travel plans to users via email.
 
 ## Getting Started
-Clone the repository, set up the virtual environment, and install the required packages.
+Clone the repository, create a virtual environment, and install dependencies with pip.
 
-1. git clone git@github.com:nirbar1985/ai-travel-agent.git
-
-1. ( In case you have python version 3.11.9 installed in pyenv)
-   ```shell script
-   pyenv local 3.11.9
+1. Create and activate a virtual environment (Windows):
+   ```
+   python -m venv venv
+   venv\Scripts\activate
    ```
 
-1. Install dependencies
-    ```shell script
-    poetry install --sync
-    ```
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-1. Enter virtual env by:
-    ```shell script
-    poetry shell
-    ```
+3. (Optional) Install dev tools:
+   ```
+   pip install -r requirements-dev.txt
+   ```
 
 ## **Store Your API Keys**
 
@@ -48,9 +47,9 @@ Make sure to replace the placeholders (`your_openai_api_key`, `your_google_api_k
 These variables cover OpenAI, Google GenAI, SERPAPI, LangChain observability, and SendGrid.
 
 ### How to Run the Chatbot
-To start the chatbot, run the following command:
+Start the app with:
 ```
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 ### Using the Chatbot
@@ -88,8 +87,8 @@ For a detailed explanation of the underlying technology, check out the full arti
 [Building Production-Ready AI Agents with LangGraph: A Real-Life Use Case](https://medium.com/cyberark-engineering/building-production-ready-ai-agents-with-langgraph-a-real-life-use-case-7bda34c7f4e4))
 
 ## CI & Quality
-- Automated CI runs on pushes and pull requests via GitHub Actions (`.github/workflows/ci.yml`).
-- CI checks include linting with `ruff` and tests with `pytest`.
+- GitHub Actions runs on pushes and PRs (`.github/workflows/ci.yml`).
+- CI uses pip to install `requirements.txt` and `requirements-dev.txt`, then runs `ruff` and `pytest`.
 - Set `GOOGLE_API_KEY` as a repository secret to enable the model listing test; otherwise it is skipped.
 
 ## Contributing
