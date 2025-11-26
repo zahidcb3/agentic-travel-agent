@@ -52,6 +52,14 @@ Start the app with:
 python -m streamlit run app.py
 ```
 
+### Export Data for Power BI
+- After querying flights or hotels in the chat, the app writes files under `data/`:
+  - `data/flights.csv` and `data/flights.json`
+  - `data/hotels.csv` and `data/hotels.json`
+- In Power BI Desktop:
+  - Get Data → Text/CSV → select `data/flights.csv` or `data/hotels.csv`
+  - Transform if needed and load into the model
+
 ### Using the Chatbot
 Once launched, simply enter your travel request. For example:
 > I want to travel to Amsterdam from Madrid from October 1st to 7th. Find me flights and 4-star hotels.

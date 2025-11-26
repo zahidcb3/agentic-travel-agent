@@ -1,6 +1,9 @@
 import os
 from typing import Optional
 from datetime import datetime, date
+from pathlib import Path
+import json
+import pandas as pd
 
 import serpapi
 from pydantic import BaseModel, Field
@@ -70,7 +73,14 @@ def hotels_finder(params: HotelsInput):
     try:
         search = serpapi.search(query)
         results = search.data
-        return results.get('properties', [])[:5]
+        props = results.get('properties', [])
+        base_dir = Path(__file__).resolve().parents[3]
+        data_dir = base_dir / "data"
+        data_dir.mkdir(parents=True, exist_ok=True)
+        (data_dir / "hotels.json").write_text(json.dumps(props, ensure_ascii=False, indent=2), encoding="utf-8")
+        df = pd.json_normalize(props)
+        df.to_csv(data_dir / "hotels.csv", index=False)
+        return props[:5]
     except Exception as e:
         # Return a friendly error string so the agent can surface it
         return {'error': str(e)}

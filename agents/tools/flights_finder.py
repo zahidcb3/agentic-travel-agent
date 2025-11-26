@@ -1,5 +1,8 @@
 import os
 from typing import Optional
+from pathlib import Path
+import json
+import pandas as pd
 
 # from pydantic import BaseModel, Field
 import serpapi
@@ -50,7 +53,19 @@ def flights_finder(params: FlightsInput):
 
     try:
         search = serpapi.search(params)
-        results = search.data['best_flights']
+        results = search.data.get('best_flights', [])
     except Exception as e:
         results = str(e)
+    try:
+        base_dir = Path(__file__).resolve().parents[3]
+        data_dir = base_dir / "data"
+        data_dir.mkdir(parents=True, exist_ok=True)
+        (data_dir / "flights.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+        if isinstance(results, list):
+            df = pd.json_normalize(results)
+        else:
+            df = pd.DataFrame([{"error": results}])
+        df.to_csv(data_dir / "flights.csv", index=False)
+    except Exception:
+        pass
     return results
